@@ -142,3 +142,45 @@ function getBooks() {
 function getBook(id) {
   return data.find((d) => d.id === id);
 }
+
+const book = getBook(1);
+
+// --> Destructuring
+// const title = book.title;
+// const author = book.author;
+// const genres = book.genres;
+const { title, author, genres } = book; // same as above
+
+// --> Rest
+const { primaryGenre, ...otherGenres } = genres; // primaryGenre -> genre1 | otherGenres -> { genre2, genre3... }
+
+// --> Spread
+const newGenres = [...genres, "epic fantasy"]; // newGenres -> {genre1, genre2, genre3, epic fantasy}
+
+const updatedBook = {
+  ...book,
+
+  // adding new property
+  moviePublicationDate: "12-10-2024",
+
+  // overwriting existing property
+  pages: 1210,
+}
+
+// --> String Literal. Can be used to type js expressions inside a string
+const summary = `${title}, a ${pages} long book, was written by ${author}`
+
+// --> ternaries, basically if then else. Can be used in template literals
+pages > 1000 ? "over a thousand" : "less than 1000"
+
+// --> arrow functions. good for smaller functions, but can be used for larger ones too
+// function getYear(str) {
+//   return str.split("-")[0]
+// }
+
+const getYear = (str) => str.split("-")[0]; // same as the function above. Works for yyyy-mm-dd format
+// if you want several lines, you can put the code in curly brackets but then you need the return keyword again.
+
+// --> Short Circuiting
+// same as python.
+
