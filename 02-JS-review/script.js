@@ -184,3 +184,101 @@ const getYear = (str) => str.split("-")[0]; // same as the function above. Works
 // --> Short Circuiting
 // same as python.
 
+// truthy value is anything thats not a falsy value
+// falsy: 0, '', null, undefined
+
+// -?? replacement for || but does not short circuit for 0 and ""
+const countWrong = book.reviews.librarything.reviewsCount || "No Data"; // gives no data when 0 reviews
+const countRight = book.reviews.librarything.reviewsCount ?? "No Data"; 
+
+// --> optional chaining
+function getTotalReviewCount(book){
+  const goodreadsCount = book.reviews?.goodreads?.reviewsCount;
+  const librarythingCount = book.reviews?.librarything?.reviewsCount ?? 0; 
+  // if library anything does not exist, we don't get an error. But libraryanything Count returns as NaN
+  return { goodreadsCount, librarythingCount }
+}
+
+// functional array methods do not mutate the original array
+
+// --> map
+const books = getBooks();
+const x = [1, 2, 3, 4, 5].map((el) => el * 2);
+// x = [2, 4, 8, 10]
+
+const titles = books.map((book) => book.title);
+// creates an array of titles
+
+const essentialData = books.map((book) => {
+  return {
+    title: book.title,
+    author: book.author,
+  };
+});
+
+// better way to do it (less code)
+const betterEssentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewsCount: getTotalReviewCount(book),
+}));
+
+// --> filter method
+const longBooks = books.filter((book) => book.pages > 500);
+// only books with more than 500 pages
+
+// chaining filters (can also just && operator)
+const longBooksWithMovie = books.filter((book) => book.pages > 500).filter((book) => book.hasMovieAdaptation);
+
+// chaining filter with map
+const adventureBooksTitles = books.filter((book) => book.genres.includes("adventure")).map((book) => book.title);
+
+// --> reduce
+// acc or accumulator is current value of return var. Starts at the 0 given
+// initial value can be anything, array or object etc. Can do very complex things
+const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0)
+
+// --> sort
+const arr = [3, 7, 1, 9, 6];
+// not a functional function. arr.slice() can be used to make a copy
+// sorts in ascending order
+// a is prev value in arr, b is next value. If negative value b first and a later
+const sorted = arr.slice().sort((a, b) => a - b);
+
+// can be used to sort objects too
+const sortedByPages = books.slice().sort((a, b) => b.pages - a.pages);
+
+// --> Working with immutable arrays
+// 1) add book object to array
+const newBook = {
+  id: 6,
+  title: "My biography",
+  author: "your mom",
+}
+
+const booksAfterAdd = {...books, newBook};
+
+// 2) Delete book object from array
+const booksAfterDelete = booksAfterAdd.filter((book) => book.id != 3);
+
+// 3) Update book object in the array
+// if book id is 1, update pages to 1, else return as is
+const booksAfterUpdate = booksAfterDelete.map((book) => book.id === 1? {...book, pages: 1} : book);
+
+// --> Asynchronous JavaScript: Promises
+// promises can be pending, redacted, fulfilled. The below line is a promise. Js will continue execution without
+// waiting for it to be fulfilled. The first "then" is also a promise
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+   .then((res) => res.json())
+   .then((data) => console.log(data));
+
+// --> async/await functions
+// better syntax. Pauses the code until the promise is fulfilled
+// just keep in mind that the return value of an async function is also a promise.
+// you would usually just set the state in the function instead of returning
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+  const data = await res.json();
+   return data;
+}
+
