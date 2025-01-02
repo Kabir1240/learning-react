@@ -1,12 +1,11 @@
-import { use, useState } from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
   const [step, setStep] = useState(1);
   const [count, setCount] = useState(0);
 
-  const todayDate = new Date(`${new Date().toDateString()}`);
+  const todayDate = new Date(Date.now());
   todayDate.setDate(todayDate.getDate() + count);
 
   const handleAddCount = () => {
@@ -20,14 +19,20 @@ function App() {
   return (
     <div className='App'>
       <div>
-        <button onClick={() => setStep((currStep) => currStep - 1)}>-</button>
-        <span>Step: {step}</span>
-        <button onClick={() => setStep((currStep) => currStep + 1)}>+</button>
+        <input 
+          type="range"
+          min="1"
+          max="10"
+          value={step}
+          onChange={(e) => (setStep(Number(e.target.value)))} />
+        <span>{step}</span>
       </div>
 
       <div>
         <button onClick={handleSubtractCount}>-</button>
-        <span>Count: {count}</span>
+        <input 
+          value={count}
+          onChange={(e) => (setCount(Number(e.target.value)))} />
         <button onClick={handleAddCount}>+</button>
       </div>
 
