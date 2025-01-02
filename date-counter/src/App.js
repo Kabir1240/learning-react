@@ -16,6 +16,11 @@ function App() {
     setCount((currCount) => currCount - step);
   };
 
+  const handleReset = () => {
+    setCount(0);
+    setStep(1)
+  }
+
   return (
     <div className='App'>
       <div>
@@ -47,6 +52,12 @@ function App() {
       {count > 0 && (
         <div>{count} days from today will be {todayDate.toDateString()}</div>
       )}
+
+      {
+        count !== 0 || step !== 1 ? 
+        <button onClick={handleReset}>Reset</button> 
+        : null
+      }
     </div>
   );
 }
