@@ -34,6 +34,16 @@ const Main = ({ step, setStep }) => {
       setStep((currStep) => currStep - 1)
     }
   };
+
+  const Button = ({ bgColor, textColor, onClick, children }) => {
+    return (
+      <button 
+        style={{ backgroundColor:bgColor, color:textColor }} 
+        onClick={ onClick }>
+          {children}
+      </button>
+    )
+  }
   
   return (
     <div className="steps">
@@ -46,8 +56,19 @@ const Main = ({ step, setStep }) => {
       <p className="message">Step {step}: {messages[step-1]}</p>
 
       <div className='buttons'>
-        <button style={{ backgroundColor:"#7950F2", color:"#FFF" }} onClick={handlePrevious}>Previous</button>
-        <button style={{ backgroundColor:"#7950F2", color:"#FFF" }} onClick={handleNext}>Next</button>
+        <Button
+          bgColor="#7950F2"
+          textColor="#FFF"
+          onClick={handlePrevious}>
+            Previous <span>👈</span>
+        </Button>
+
+        <Button
+          bgColor="#7950F2"
+          textColor="#FFF"
+          onClick={handleNext}>
+            Next <span>👉</span>
+        </Button>
       </div>
     </div>
   )
