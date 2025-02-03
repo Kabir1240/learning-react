@@ -1,4 +1,6 @@
-export interface CreateCustomerAction {
+import { AnyAction } from "redux"
+
+export interface CreateCustomerAction extends AnyAction {
   type: "customer/createCustomer",
   payload: {
     fullName: string,
@@ -7,7 +9,7 @@ export interface CreateCustomerAction {
   }
 }
 
-export interface UpdateCustomerAction {
+export interface UpdateCustomerAction extends AnyAction {
   type: "customer/updateCustomer"
   payload: {
     fullName: string
